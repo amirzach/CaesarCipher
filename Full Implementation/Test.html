@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Cipher + RSA Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        pre {
+            white-space: pre-wrap;       /* Allows wrapping */
+            word-wrap: break-word;       /* Breaks long words */
+            background-color: #e7e7e7;   /* Gray background */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Shift Cipher + RSA Encryption</h1>
+
+        <form id="encryptionForm">
+            <label for="plaintext">Enter the plaintext:</label>
+            <textarea id="plaintext" rows="4" placeholder="Enter text to encrypt"></textarea>
+
+            <label for="shiftValue">Enter the shift value for Shift Cipher:</label>
+            <input type="number" id="shiftValue" placeholder="Shift value" />
+
+            <button type="button" onclick="performEncryption()">Encrypt</button>
+        </form>
+
+        <div id="result" class="output" style="display:none;">
+            <h2>Results:</h2>
+            <p><strong>Encrypted (RSA + Shift Cipher):</strong></p>
+            <pre id="rsaEncryptedText"></pre>
+            <p><strong>Decrypted Message:</strong></p>
+            <pre id="decryptedMessage"></pre>
+        </div>
+    </div>
+
+    <script>
+        function performEncryption() {
+            const plaintext = document.getElementById("plaintext").value;
+            const shiftValue = parseInt(document.getElementById("shiftValue").value);
+
+            if (!plaintext || isNaN(shiftValue)) {
+                alert("Please enter valid plaintext and shift value.");
+                return;
+            }
+
+            // Simulate Shift Cipher and RSA encryption and decryption
+            const substitutionTable = createSubstitutionTable(shiftValue);
+            const shiftEncryptedText = shiftCipherEncrypt(plaintext.toUpperCase(), substitutionTable);
+            const rsaEncryptedText = rsaEncrypt(shiftEncryptedText);
+
+            // Simulate RSA decryption
+            const rsaDecryptedText = rsaDecrypt(rsaEncryptedText);
+
+            // Simulate Shift Cipher decryption
+            const finalDecryptedText = shiftCipherDecrypt(rsaDecryptedText, substitutionTable);
+
+            // Display results
+            document.getElementById("rsaEncryptedText").textContent = rsaEncryptedText;
+            document.getElementById("decryptedMessage").textContent = finalDecryptedText;
+            document.getElementById("result").style.display = "block";
+        }
+
+        // Shift Cipher functions
+        function createSubstitutionTable(shift) {
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            shift = (shift % alphabet.length + alphabet.length) % alphabet.length;
+            return alphabet.slice(shift) + alphabet.slice(0, shift);
+        }
+
+        function shiftCipherEncrypt(plaintext, substitutionTable) {
+            let ciphertext = "";
+            for (let i = 0; i < plaintext.length; i++) {
+                const c = plaintext[i];
+                const index = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(c);
+                if (index !== -1) {
+                    ciphertext += substitutionTable[index];
+                } else {
+                    ciphertext += c;
+                }
+            }
+            return ciphertext;
+        }
+
+        function shiftCipherDecrypt(ciphertext, substitutionTable) {
+            let plaintext = "";
+            for (let i = 0; i < ciphertext.length; i++) {
+                const c = ciphertext[i];
+                const index = substitutionTable.indexOf(c);
+                if (index !== -1) {
+                    plaintext += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[index];
+                } else {
+                    plaintext += c;
+                }
+            }
+            return plaintext;
+        }
+
+        // Simulate RSA encryption and decryption (For demonstration purposes)
+        function rsaEncrypt(plaintext) {
+            return btoa(plaintext);  // Base64 encoding to simulate encryption
+        }
+
+        function rsaDecrypt(ciphertext) {
+            return atob(ciphertext);  // Base64 decoding to simulate decryption
+        }
+    </script>
+
+</body>
+</html>
