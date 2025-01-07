@@ -30,10 +30,10 @@ public class RSAEncryption {
     }
 
     public static void main(String[] args) {
-        // Initialize scanner for user input
-        Scanner scanner = new Scanner(System.in);
-        
         try {
+            // Initialize scanner for user input
+            Scanner scanner = new Scanner(System.in);
+
             // Prompt user to enter plaintext
             System.out.print("Enter the message to encrypt: ");
             String plaintext = scanner.nextLine();
@@ -51,10 +51,9 @@ public class RSAEncryption {
             String decryptedMessage = decrypt(encryptedMessage, privateKey);
             System.out.println("Decrypted Message: " + decryptedMessage);
 
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            scanner.close();
         }
     }
 }
