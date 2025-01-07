@@ -5,7 +5,7 @@ public class Shift_cipher {
     private static String alphabet = "";
 
     // Function to create a substitution table
-    public static String createSubstitutionTable(int shift, String alphabet) {
+    public static String createSubstitutionTable(int shift) {
         int length = alphabet.length();
         shift = (shift % length + length) % length; // Handle negative shifts
         return alphabet.substring(shift) + alphabet.substring(0, shift);
@@ -80,7 +80,7 @@ public class Shift_cipher {
         scanner.nextLine(); // Consume newline
 
         // Create substitution table for encryption
-        String substitutionTable = createSubstitutionTable(shift, alphabet);
+        String substitutionTable = createSubstitutionTable(shift);
 
         // Encrypt plaintext
         String ciphertext = encrypt(plaintext, substitutionTable);
