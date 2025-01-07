@@ -51,6 +51,7 @@ public class RSAEncryption {
             String decryptedMessage = decrypt(encryptedMessage, privateKey);
             System.out.println("Decrypted Message: " + decryptedMessage);
 
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
